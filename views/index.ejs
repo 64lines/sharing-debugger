@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sharing Debugger</title>
+    <style>
+      table {
+        border-spacing: 0;
+      }
+
+      body {
+        padding: 0;
+        margin: 0;
+      }
+
+      h1 {
+        color: #4b4f56;
+        font-size: 18px;
+        font-family: -apple-system, BlinkMacSystemFont, Roboto, Arial, Helvetica,
+          sans-serif;
+        word-wrap: break-word;
+        line-height: 1.2;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 18px;
+        font-family: -apple-system, BlinkMacSystemFont, Roboto, Arial, Helvetica,
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      table {
+        width: 100%;
+      }
+
+      .form__url_container {
+        display: flex;
+        width: 100%;
+      }
+
+      .form__button_container {
+        padding-left: 8px;
+      }
+
+      .form__container__container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        background-color: #fff;
+        border-bottom: 2px solid #f2f2f2;
+      }
+
+      .form__container {
+        display: flex;
+        width: 1024px;
+        margin: 28px 16px;
+      }
+
+      .form {
+        display: flex;
+        position: relative;
+        width: 100%;
+      }
+
+      .form__url {
+        border-radius: 2px;
+        box-sizing: border-box;
+        height: 36px;
+        width: 100%;
+        border: 1px solid #dddfe2;
+        color: #1d2129;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        line-height: 16px;
+        padding: 0 8px;
+        vertical-align: middle;
+      }
+
+      .form__url::placeholder {
+        color: #979a9f;
+      }
+
+      .form__button {
+        line-height: 34px;
+        padding: 0 16px;
+        background-color: #c37100;
+        border: 1px solid #ab6607;
+        color: #fff;
+        border-radius: 2px;
+        box-sizing: content-box;
+        font-size: 12px;
+        -webkit-font-smoothing: antialiased;
+        font-weight: 700;
+        justify-content: center;
+        padding: 0 16px;
+        position: relative;
+        text-align: center;
+        text-shadow: none;
+        vertical-align: middle;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
+        white-space: nowrap;
+        margin: 0;
+        font-family: Helvetica, Arial, sans-serif;
+        word-wrap: break-word;
+      }
+
+      .form__button:before {
+        content: "";
+        display: inline-block;
+        height: 20px;
+        vertical-align: middle;
+      }
+
+      .padding-left-64 {
+        padding-left: 64px;
+      }
+
+      .padding-right-64 {
+        padding-right: 64px;
+      }
+
+      .padding-left-16 {
+        padding-left: 16px;
+      }
+
+      .padding-right-16 {
+        padding-right: 16px;
+      }
+
+      .message__container {
+        font-size: 10px;
+        line-height: 1.2;
+      }
+
+      .white-background {
+        background-color: white;
+      }
+
+      .padding-top-64 {
+        padding-top: 64px;
+      }
+
+      .padding-top-16 {
+        padding-top: 16px;
+      }
+
+      .padding-bottom-64 {
+        padding-bottom: 64px;
+      }
+
+      .padding-bottom-16 {
+        padding-bottom: 16px;
+      }
+
+      .message__inner_container {
+        display: flex;
+        box-sizing: border-box;
+        margin: 0 auto;
+        padding: 0 16px;
+        width: 100%;
+      }
+
+      .message__inner_inner__container {
+        padding-left: 32px;
+      }
+
+      .gray-border {
+        border: 1px solid #dddfe2;
+      }
+
+      .table__container {
+        border: 1px solid #dddfe2;
+        border-radius: 0;
+        overflow: hidden;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0 auto;
+        padding: 0 16px;
+        background-color: white;
+        max-width: 1024px;
+      }
+
+      .table_title {
+        font-family: -apple-system, BlinkMacSystemFont, Roboto, Arial, Helvetica,
+          sans-serif;
+        color: #4b4f56;
+        font-size: 14px;
+        line-height: 46px;
+        font-weight: 600;
+      }
+
+      .row_text {
+        color: rgb(75, 79, 86);
+        font-size: 14px;
+        line-height: 18px;
+        overflow-wrap: break-word;
+      }
+
+      .table__table_data {
+        font-family: Helvetica, Arial, sans-serif;
+        padding: 8px;
+        vertical-align: top;
+      }
+
+      .table__body td:nth-child(even) {
+        border-left: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .table__body tr:nth-child(even) {
+        background-color: #f5f6f7;
+      }
+
+      .table__container_data {
+        padding: 16px;
+        border-top: none;
+      }
+
+      .gray-background {
+        background-color: #f2f2f2;
+      }
+
+      .width-150 {
+        width: 150px;
+      }
+
+      .width-full {
+        width: 100%;
+      }
+
+      .card {
+        width: 527px;
+        border: solid 1px #dadde1;
+      }
+
+      .card_host {
+        color: #606770;
+        font-family: Helvetica, Arial, sans-serif;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+
+      .card_label {
+        padding-bottom: 10px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 10px;
+      }
+
+      .card_image {
+        width: 100%;
+        object-fit: cover;
+      }
+
+      .card_title {
+        font-size: 16px;
+        font-weight: 600;
+        font-family: Helvetica, Arial, sans-serif;
+        margin-top: 3px;
+      }
+
+      .card_description {
+        margin-top: 3px;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color: rgb(95, 104, 111);
+        text-overflow: ellipsis;
+        height: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      .title {
+        padding: 16px 12px;
+        width: 170px;
+        border-bottom: 4px solid #c37100;
+        text-align: center;
+        font-family: Roboto, Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .error__container {
+        display: flex;
+        border: 1px solid #fa3e3e;
+        margin: 16px;
+        border-radius: 3px;
+        font-size: 14px;
+        font-family: -apple-system, system-ui, Roboto, Arial, Helvetica,
+          sans-serif;
+      }
+
+      .error__icon {
+        padding: 10px;
+        background-color: #fa3e3e;
+        color: white;
+        font-size: 20px;
+      }
+
+      .error__message {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title__container">
+      <div class="title">Sharing Debugger</div>
+    </div>
+    <div class="form__container__container">
+      <div class="form__container">
+        <form action="/" id="debug_form" class="form">
+          <div class="form__url_container">
+            <input
+              class="form__url"
+              name="q"
+              placeholder="Enter a URL to see the information that is used when it is shared on social media."
+              value="<%= url %>"
+            />
+          </div>
+          <div class="form__button_container">
+            <button class="form__button" type="submit">Debug</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <% if (data.status === "success") { %>
+    <div
+      class="message__container padding-right-16 padding-left-16 gray-background padding-top-16 padding-bottom-16"
+    >
+      <div class="table__container">
+        <div class="table__title_container">
+          <span class="table_title">URL Scraping</span>
+        </div>
+      </div>
+      <div class="table__container table__container_data">
+        <div>
+          <table>
+            <tbody class="table__body">
+              <tr>
+                <td class="table__table_data width-150">
+                  <span class="row_text">Time Scraped</span>
+                </td>
+                <td class="table__table_data">
+                  <span class="row_text"><%= data.timeScrapped %></span>
+                </td>
+              </tr>
+              <tr>
+                <td class="table__table_data width-150">
+                  <span class="row_text">Response Code</span>
+                </td>
+                <td class="table__table_data">
+                  <span class="row_text"><%= data.responseCode %></span>
+                </td>
+              </tr>
+              <tr>
+                <td class="table__table_data width-150">
+                  <span class="row_text">Fetched URL</span>
+                </td>
+                <td class="table__table_data">
+                  <span class="row_text"
+                    ><a href="<%= data.fetchedURL %>"
+                      ><%= data.fetchedURL %></a
+                    ></span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="table__table_data width-150">
+                  <span class="row_text">Canonical URL</span>
+                </td>
+                <td class="table__table_data">
+                  <span class="row_text"
+                    ><a href="<%= data.canonicalURL %>"
+                      ><%= data.canonicalURL %></a
+                    ></span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="table__table_data width-150">
+                  <span class="row_text">Link Preview</span>
+                </td>
+                <td class="table__table_data">
+                  <div class="card">
+                    <div class="card_image__container">
+                      <img class="card_image" src="<%=
+                      data.openGraph["og:image"] %>" height="274" style="top:
+                      0px;"/>
+                    </div>
+                    <div class="card_label">
+                      <div class="card_host">
+                        <span><%= data.host %></span>
+                      </div>
+                      <div class="card_group">
+                        <div class="card_title">
+                          <%= data.openGraph["og:title"] %>
+                        </div>
+                        <div class="card_description">
+                          <%= data.openGraph["og:description"] %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="message__container gray-background padding-bottom-16">
+      <div class="table__container">
+        <div class="table__title_container">
+          <span class="table_title">Open Graph Properties</span>
+        </div>
+      </div>
+      <div class="table__container table__container_data">
+        <div>
+          <table>
+            <tbody class="table__body">
+              <tr>
+                <td class="table__table_data width-150">
+                  <span class="row_text">og:url</span>
+                </td>
+                <td class="table__table_data">
+                  <span class="row_text"><%= data.openGraph["og:url"] %></span>
+                </td>
+              </tr>
+              <tr>
+                <td class="table__table_data width-150">
+                  <span class="row_text">og:title</span>
+                </td>
+                <td class="table__table_data">
+                  <span class="row_text">
+                    <%= data.openGraph["og:title"] %>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="table__table_data width-150">
+                  <span class="row_text">og:image</span>
+                </td>
+                <td class="table__table_data">
+                  <span class="row_text"
+                    ><%= data.openGraph["og:image"] %></span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="table__table_data width-150">
+                  <span class="row_text">og:description</span>
+                </td>
+                <td class="table__table_data">
+                  <span class="row_text"
+                    ><%= data.openGraph["og:description"] %></span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="table__table_data width-150">
+                  <span class="row_text">og:site_name</span>
+                </td>
+                <td class="table__table_data">
+                  <span class="row_text"
+                    ><%= data.openGraph["og:site_name"] %></span
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <% } else if (data.status === "error") { %>
+    <div
+      class="message__container gray-background padding-right-16 padding-left-16 padding-bottom-16 padding-top-16"
+    >
+      <div class="table__container">
+        <div class="table__title_container">
+          <div class="error__container">
+            <div class="error__icon">
+              <span class="error__icon_text">&#9888;</span>
+            </div>
+            <div class="error__message">
+              <span><%= data.message %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } else { %>
+    <div class="message__container padding-right-64 padding-left-64 padding-top-64 padding-bottom-64 gray-background">
+      <div class="gray-border white-background padding-bottom-16 padding-top-16">
+        <div class="message__inner_container">
+          <img src="message_image.jpg" class="gray-border" alt="Message" width="288" height="168" />
+          <div class="message__inner_inner__container">
+            <h1>How does the Sharing Debugger work?</h1>
+            <div>
+              <p>
+                You can use the Sharing Debugger to see the information that is
+                used when your website content is shared in social media.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </body>
+</html>
